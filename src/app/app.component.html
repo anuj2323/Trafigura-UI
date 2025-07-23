@@ -1,0 +1,54 @@
+<div style="max-width: 400px; margin: 40px auto; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: #fff;">
+  <h2 style="text-align:center; margin-bottom: 24px;">Equity Trade Entry</h2>
+  <form [formGroup]="equityForm" (ngSubmit)="onSubmit()">
+    <div style="margin-bottom: 16px;">
+      <label>Security Code:</label><br>
+      <input formControlName="securityCode" type="text" style="width:100%; padding:8px; border-radius:4px; border:1px solid #ccc;" />
+      <div *ngIf="equityForm.get('securityCode')?.touched && equityForm.get('securityCode')?.invalid" style="color:red; font-size:12px;">Required</div>
+    </div>
+    <div style="margin-bottom: 16px;">
+      <label>Quantity:</label><br>
+      <input formControlName="quantity" type="number" style="width:100%; padding:8px; border-radius:4px; border:1px solid #ccc;" />
+      <div *ngIf="equityForm.get('quantity')?.touched && equityForm.get('quantity')?.invalid" style="color:red; font-size:12px;">Required</div>
+    </div>
+    <div style="margin-bottom: 16px;">
+      <label>Direction:</label><br>
+      <select formControlName="direction" style="width:100%; padding:8px; border-radius:4px; border:1px solid #ccc;">
+        <option value="" disabled>Select Direction</option>
+        <option *ngFor="let dir of directions" [value]="dir">{{ dir }}</option>
+      </select>
+      <div *ngIf="equityForm.get('direction')?.touched && equityForm.get('direction')?.invalid" style="color:red; font-size:12px;">Required</div>
+    </div>
+
+    <div style="margin-bottom: 24px;">
+      <label>Action:</label><br>
+      <select formControlName="action" style="width:100%; padding:8px; border-radius:4px; border:1px solid #ccc;">
+        <option value="" disabled>Select Action</option>
+        <option *ngFor="let act of actions" [value]="act">{{ act }}</option>
+      </select>
+      <div *ngIf="equityForm.get('action')?.touched && equityForm.get('action')?.invalid" style="color:red; font-size:12px;">Required</div>
+    </div>
+    <button type="submit" [disabled]="!equityForm.valid" style="width:100%; padding:10px; background:#1976d2; color:#fff; border:none; border-radius:4px; font-size:16px; cursor:pointer;">Submit</button>
+  </form>
+</div>
+
+<div style="max-width: 400px; margin: 40px auto; margin-top: 32px;">
+  <h3 style="text-align:center;">Position Information</h3>
+  <table style="width:100%; border-collapse:collapse; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+    <thead>
+      <tr style="background:#f5f5f5;">
+        <th style="padding:8px; border:1px solid #eee;">Security Code</th>
+        <th style="padding:8px; border:1px solid #eee;">Result</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pos of positions">
+        <td style="padding:8px; border:1px solid #eee;">{{ pos.securityCode }}</td>
+        <td style="padding:8px; border:1px solid #eee;">{{ pos.result }}</td>
+      </tr>
+      <tr *ngIf="positions.length === 0">
+        <td colspan="2" style="text-align:center; color:#888; padding:16px;">No position data found.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
